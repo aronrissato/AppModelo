@@ -18,7 +18,7 @@
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-buttom mb-3">
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">App Modelo</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSuppportedContent"
@@ -29,6 +29,9 @@
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Produtos" asp-controller="Cadastro" asp-action="Index">Cadastro</a>
                         </li>
                     </ul>
                 </div>
@@ -49,7 +52,7 @@
     </footer>
 
     <environment include="Development">
-        @*<script src="~/js/site_bundle.min.js"></script>*@
+        <script src="~/js/site_bundle.min.js"></script>
         <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
     </environment>
     <environment exclude="Development">

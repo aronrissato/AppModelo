@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    alert("lala");
+    //alert("lala");
 });
 
 /* testando minification com comentários e espaços */
