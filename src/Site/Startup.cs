@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.DependencyInjection;
+using Site.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static Site.Data.PedidoRepository;
 
 namespace Site
 {
@@ -28,6 +30,8 @@ namespace Site
             #endregion
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddTransient<IPedidoRepository, PedidoRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
