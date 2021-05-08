@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Site.Data;
 using System;
@@ -15,11 +17,16 @@ namespace Site
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        public IConfiguration Configuration { get; }
+
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
-            #region Configurando Areas
+            #region Configurando rotas das areas
             services.Configure<RazorViewEngineOptions>(options =>
             {
                 options.AreaViewLocationFormats.Clear();
@@ -29,12 +36,21 @@ namespace Site
             });
             #endregion
 
+            #region Setando versão compatível MVC
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            #endregion
 
+            #region Setando ConnectionString do arquivo appsettings
+            services.AddDbContext<MeuDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("MeuDbContext")));
+            #endregion
+
+            #region Tipos de injeção de dependência
             services.AddTransient<IPedidoRepository, PedidoRepository>();
+            services.AddScoped<IPedidoRepository, PedidoRepository>();
+            services.AddSingleton<IPedidoRepository, PedidoRepository>();
+            #endregion
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -44,6 +60,7 @@ namespace Site
 
             app.UseStaticFiles();
 
+            #region Mapeando rotas com as áreas
             app.UseMvc(routes =>
             {
                 routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
@@ -53,6 +70,7 @@ namespace Site
                 routes.MapAreaRoute("AreaProdutos", "Produtos", "Produtos/{controller=Cadastro}/{action=Index}/{id?}");
                 routes.MapAreaRoute("AreaVendas", "Vendas", "Vendas/{controller=Pedidos}/{action=Index}/{id?}");
             });
+            #endregion
         }
     }
 }

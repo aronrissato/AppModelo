@@ -1,4 +1,7 @@
-﻿@{ 
-    Layout = "_Layout";
-    ViewData["Title"] = "Index";
+﻿@{Layout = "_Layout";
+    @using Site.Data
+    @inject PedidoRepository.IPedidoRepository PedidoRepository
 }
+    Olá
+
+@PedidoRepository.ObterPedido().Id
